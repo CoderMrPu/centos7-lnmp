@@ -111,6 +111,18 @@ class Lnmp
                 end
 
                 if settings.include? 'sites'
+                    # Clear any Homestead sites and insert markers in /etc/hosts
+                    config.vm.provision 'shell' do |s|
+                        s.path = script_dir + '/hosts-reset.sh'
+                    end
+
+                    config.vm.provision 'shell' do |s|
+                    	s.path = script_dir + "/hosts-add.sh"
+                    	s.args = [
+                    	    site['map']
+                    	]
+                    end
+
                     # 清除nginx站点
                 	config.vm.provision 'shell' do |s|
                         s.path = script_dir + '/clear-nginx.sh'
