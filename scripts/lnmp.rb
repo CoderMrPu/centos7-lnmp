@@ -116,11 +116,13 @@ class Lnmp
                         s.path = script_dir + '/hosts-reset.sh'
                     end
 
-                    config.vm.provision 'shell' do |s|
-                    	s.path = script_dir + "/hosts-add.sh"
-                    	s.args = [
-                    	    site['map']
-                    	]
+                    settings['sites'].each do |site|
+                        config.vm.provision 'shell' do |s|
+                            s.path = script_dir + "/hosts-add.sh"
+                            s.args = [
+                                site['map']
+                            ]
+                        end
                     end
 
                     # 清除nginx站点
